@@ -1,10 +1,12 @@
-package com.songsong.focus;
+package com.songsong.focus.Activity;
 
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
-import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
+
+import com.songsong.focus.R;
 
 /**
  * Created by a on 2018/3/18.
