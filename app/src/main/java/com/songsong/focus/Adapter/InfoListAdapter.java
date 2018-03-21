@@ -58,7 +58,6 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.InfoVi
     public void onBindViewHolder(InfoViewHolder holder, int position) {
         holder.title.setText(mData.get(position).getTitle());
         Glide.with(mContext).load(mData.get(position).getImgurl()).into(holder.img);
-
     }
 
     //C、数据的长度
