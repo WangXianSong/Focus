@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide;
 import com.songsong.focus.Bean.Item;
 import com.songsong.focus.R;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by a on 2018/3/18.
@@ -20,35 +20,13 @@ import java.util.ArrayList;
 
 public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.InfoViewHolder> {
 
-    private ArrayList<Item> mData;
+    private List<Item> mData;
     private Context mContext;
 
-
     //构造函数，用于把要展示的数据源传进来
-    public InfoListAdapter(ArrayList<Item> data, Context context) {
+    public InfoListAdapter(Context mContext, List<Item> data) {
         mData = data;
-        mContext = context;
-    }
-
-    //A、创建 ViewHolder，通过使用View来绑定条目样式文件
-    @Override
-    public InfoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.info_item, parent, false);
-        InfoViewHolder holder = new InfoViewHolder(view);
-        return holder;
-    }
-
-    //B、绑定 ViewHolder,此方法内可以对布局中的控件进行操作
-    @Override
-    public void onBindViewHolder(InfoViewHolder holder, int position) {
-        holder.title.setText(mData.get(position).getTitle());
-        Glide.with(mContext).load(mData.get(position).getImgurl()).into(holder.img);
-    }
-
-    //C、数据的长度
-    @Override
-    public int getItemCount() {
-        return mData.size();
+        this.mContext = mContext;
     }
 
     //定义一个 InfoViewHolder
@@ -65,5 +43,27 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.InfoVi
             img = itemView.findViewById(R.id.item_image);
             headTitle = itemView.findViewById(R.id.item_headtitle);
         }
+    }
+
+
+    //A、创建 ViewHolder，通过使用View来绑定条目样式文件
+    @Override
+    public InfoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        InfoViewHolder holder = new InfoViewHolder(LayoutInflater.from(mContext).inflate(R.layout.info_item, parent, false));
+        return holder;
+    }
+
+    //B、绑定 ViewHolder,此方法内可以对布局中的控件进行操作
+    @Override
+    public void onBindViewHolder(InfoViewHolder holder, int position) {
+        holder.title.setText(mData.get(position).getTitle());
+        Glide.with(mContext).load(mData.get(position).getImgurl()).into(holder.img);
+
+    }
+
+    //C、数据的长度
+    @Override
+    public int getItemCount() {
+        return mData.size();
     }
 }
