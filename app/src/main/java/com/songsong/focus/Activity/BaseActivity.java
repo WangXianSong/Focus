@@ -8,9 +8,6 @@ import android.support.v7.widget.Toolbar;
 
 import com.songsong.focus.R;
 
-/**
- * Created by a on 2018/3/18.
- */
 
 public class BaseActivity extends AppCompatActivity{
     public Toolbar toolbar;

@@ -14,9 +14,6 @@ import com.songsong.focus.R;
 
 import java.util.List;
 
-/**
- * Created by a on 2018/3/18.
- */
 
 public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.InfoViewHolder> {
 
@@ -49,6 +46,8 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.InfoVi
     //A、创建 ViewHolder，通过使用View来绑定条目样式文件
     @Override
     public InfoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        //修改后
+        if (headView != null && viewType == TYPE_HEADER) return new InfoViewHolder(headView);
         InfoViewHolder holder = new InfoViewHolder(LayoutInflater.from(mContext).inflate(R.layout.info_item, parent, false));
         return holder;
     }
@@ -56,13 +55,50 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.InfoVi
     //B、绑定 ViewHolder,此方法内可以对布局中的控件进行操作
     @Override
     public void onBindViewHolder(InfoViewHolder holder, int position) {
-        holder.title.setText(mData.get(position).getTitle());
+        //修改后
+        if (getItemViewType(position) == TYPE_HEADER) return;
+        final int pos = getRealPosition(holder);
+
+        holder.title.setText(mData.get(pos).getTitle());
         Glide.with(mContext).load(mData.get(position).getImgurl()).into(holder.img);
     }
 
     //C、数据的长度
     @Override
     public int getItemCount() {
-        return mData.size();
+        //修改后
+        return headView == null ? mData.size() : mData.size() + 1;
     }
+
+
+    /*以下是banner的代码*/
+
+    public static final int TYPE_HEADER = 0;//显示headvuiew
+    public static final int TYPE_NORMAL = 1;//显示普通的item
+    private View headView;//这家伙就是Banner
+
+
+    public void setHeadView(View headView) {
+        this.headView = headView;
+        notifyItemInserted(0);
+    }
+
+    public View getHeadView() {
+        return headView;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (headView == null)
+            return TYPE_NORMAL;
+        if (position == 0)
+            return TYPE_HEADER;
+        return TYPE_NORMAL;
+    }
+
+    private int getRealPosition(RecyclerView.ViewHolder holder) {
+        int position = holder.getLayoutPosition();
+        return headView == null ? position : position - 1;
+    }
+
 }
